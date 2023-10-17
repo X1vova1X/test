@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Открытие ссылки в окне</title>
+    <style>
+        #window {
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 800px;
+            height: 600px;
+            border: 1px solid #ccc;
+            overflow: hidden;
+        }
+
+        #window-header {
+            background-color: #f1f1f1;
+            padding: 5px;
+            cursor: move;
+        }
+
+        #window-content {
+            width: 100%;
+            height: 100%;
+        }
+
+        #close-button {
+            float: right;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        // Функция для перемещения окна
+        function dragWindow(windowElement) {
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            document.getElementById(windowElement.id + "-header").onmousedown = dragMouseDown;
+        
+            function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault();
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                document.onmousemove = elementDrag;
+            }
+        
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                windowElement.style.top = (windowElement.offsetTop - pos2) + "px";
+                windowElement.style.left = (windowElement.offsetLeft - pos1) + "px";
+            }
+        
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+
+        // Функция для закрытия окна
+        function closeWindow(windowElement) {
+            windowElement.style.display = "none";
+        }
+    </script>
+</head>
+<body>
+    <div id="window">
+        <div id="window-header">
+            <span id="close-button" onclick="closeWindow(window)">&#10006;</span>
+        </div>
+        <div id="window-content">
+            <iframe src="https://n9.cl/7d3x2" width="100%" height="100%"></iframe>
+        </div>
+    </div>
+
+    <script>
+        // Вызов функции для перемещения окна
+        dragWindow(document.getElementById("window"));
+    </script>
+</body>
+</html>
